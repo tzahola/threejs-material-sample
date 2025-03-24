@@ -1,0 +1,21 @@
+{
+  "name": "threejs-material-sample",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "build": "npx webpack",
+    "start": "npx webpack serve"
+  },
+  "private": true,
+  "author": "",
+  "license": "",
+  "description": "",
+  "devDependencies": {
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "dependencies": {
+    "three": "file:../three.js"
+  }
+}
