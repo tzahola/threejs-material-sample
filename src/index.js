@@ -148,6 +148,7 @@ const models = [
   { name: 'bunny', path: 'bunny.obj', scale: 50 },
   { name: 'sphere', path: 'sphere.obj', scale: 1 },
   { name: 'vase', path: 'vase.obj', scale: 0.5 },
+  { name: 'vase2', path: 'vase2.obj', scale: 3 },
 ];
 
 const mappings = [
