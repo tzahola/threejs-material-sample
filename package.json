@@ -11,11 +11,24 @@
   "license": "",
   "description": "",
   "devDependencies": {
-    "webpack": "^5.98.0",
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "postcss": "^8.5.3",
+    "postcss-loader": "^8.1.1",
+    "postcss-preset-env": "^10.1.6",
+    "style-loader": "^4.0.0",
+    "tailwindcss": "3.4",
+    "webpack": "^5.99.6",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.0"
   },
   "dependencies": {
-    "three": "file:../three.js"
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
+    "@plastic-software/three": "file:../three.js",
+    "@preact/signals": "^2.0.4",
+    "preact": "^10.26.5"
   }
 }

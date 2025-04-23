@@ -1,148 +1,14 @@
+/** @jsx h */
+import { render, h, Fragment } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+import './index.css';
 import * as THREE from 'three';
+import materials from './materials.json';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { VertexNormalsHelper } from 'three/addons/helpers/VertexNormalsHelper.js';
 import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
-
-const materials = [
-  {
-    name: 'perforated metal',
-    attributes: [
-      { name: 'color',        value: 0x333333,                                          editable: true },
-      { name: 'colorMap',     value: 'Perforated_Metal/Perforated_Metal_diffuse.png',   editable: false },
-      { name: 'normalMap',    value: 'Perforated_Metal/Perforated_Metal_normal.png',    editable: false },
-      { name: 'alphaMap',     value: 'Perforated_Metal/Perforated_Metal_opacity.png',   editable: false },
-      { name: 'roughnessMap', value: 'Perforated_Metal/Perforated_Metal_roughness.png', editable: false },
-      { name: 'metalnessMap', value: 'Perforated_Metal/Perforated_Metal_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'chainmail',
-    attributes: [
-      { name: 'color',        value: 0x333333,                      editable: true },
-      { name: 'normalMap',    value: 'Chains/Chains_normal.png',    editable: false },
-      { name: 'alphaMap',     value: 'Chains/Chains_opacity.png',   editable: false },
-      { name: 'roughnessMap', value: 'Chains/Chains_roughness.png', editable: false },
-      { name: 'metalnessMap', value: 'Chains/Chains_metallic.png',  editable: false },
-    ],
-  },
-  {
-    name: 'sci-fi brick',
-    attributes: [
-      { name: 'color',        value: 0xFFFFFF,                                editable: true },
-      { name: 'colorMap',     value: 'SciFi_Brick/SciFi_Brick_baseColor.png', editable: false },
-      { name: 'normalMap',    value: 'SciFi_Brick/SciFi_Brick_normal.png',    editable: false },
-      { name: 'roughness',    value: 0.7,                                     editable: false },
-      { name: 'roughnessMap', value: 'SciFi_Brick/SciFi_Brick_mask.png',      editable: false },
-      { name: 'metalnessMap', value: 'SciFi_Brick/SciFi_Brick_mask.png',      editable: false },
-      { name: 'aoMap',        value: 'SciFi_Brick/SciFi_Brick_mask.png',      editable: false },
-    ],
-  },
-  {
-    name: 'metal plate',
-    attributes: [
-      { name: 'color',        value: 0xFFFFFF,                                      editable: true },
-      { name: 'colorMap',     value: 'TH_Metal_Plate/TH_Metal_Plate_baseColor.png', editable: false },
-      { name: 'normalMap',    value: 'TH_Metal_Plate/TH_Metal_Plate_normal.png',    editable: false },
-      { name: 'roughnessMap', value: 'TH_Metal_Plate/TH_Metal_Plate_roughness.png', editable: false },
-      { name: 'metalnessMap', value: 'TH_Metal_Plate/TH_Metal_Plate_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'blocky cliff',
-    attributes: [
-      { name: 'colorMap',     value: 'blocky-cliff-bl/blocky-cliff_albedo.png',      editable: false },
-      { name: 'normalMap',    value: 'blocky-cliff-bl/blocky-cliff_normal-ogl.png',  editable: false },
-      { name: 'roughnessMap', value: 'blocky-cliff-bl/blocky-cliff_roughness.png',   editable: false },
-      { name: 'metalnessMap', value: 'blocky-cliff-bl/blocky-cliff_metallic.png',    editable: false },
-      { name: 'aoMap',        value: 'blocky-cliff-bl/blocky-cliff_ao.png',          editable: false },
-    ],
-  },
-  {
-    name: 'gold foil',
-    attributes: [
-      { name: 'color',     value: 0xFFC053,                               editable: false },
-      { name: 'normalMap', value: 'Gold_Foil_2k_8b/Gold_Foil_normal.png', editable: false },
-      { name: 'roughness', value: 0,                                      editable: false },
-      { name: 'metalness', value: 1,                                      editable: false },
-    ],
-  },
-  {
-    name: 'car paint',
-    attributes: [
-      { name: 'color',         value: 0x933100,                                editable: true },
-      { name: 'normalMap',     value: 'Car_Paint/Car_Paint_normal.png',        editable: false, repeat: 5 },
-      { name: 'metalness',     value: 1,                                       editable: false },
-      { name: 'roughnessMap',  value: 'Car_Paint/Car_Paint_roughness.png',     editable: false },
-      { name: 'clearcoat',     value: 1,                                       editable: false },
-    ],
-  },
-  {
-    name: 'stainless steel brushed',
-    attributes: [
-      { name: 'colorMap',     value: 'Stainless_Steel_Brushed/Stainless_Steel_Brushed_diffuse.png',   editable: false },
-      { name: 'normalMap',    value: 'Stainless_Steel_Brushed/Stainless_Steel_Brushed_bump.png',      editable: false },
-      { name: 'metalness',    value: 1,                                                               editable: false },
-      { name: 'roughnessMap', value: 'Stainless_Steel_Brushed/Stainless_Steel_Brushed_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'aluminum brushed',
-    attributes: [
-      { name: 'color',        value: 0x888888,                                          editable: false },
-      { name: 'normalMap',    value: 'Aluminum_Brushed/Aluminum_Brushed_normal.png',    editable: false },
-      { name: 'metalness',    value: 1,                                                 editable: false },
-      { name: 'roughness',    value: 0.5,                                               editable: false },
-      { name: 'roughnessMap', value: 'Aluminum_Brushed/Aluminum_Brushed_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'aluminum matte',
-    attributes: [
-      { name: 'color',        value: 0x888888,                                      editable: false },
-      { name: 'normalMap',    value: 'Aluminum_Matte/Aluminum_Matte_normal.png',    editable: false },
-      { name: 'metalness',    value: 1,                                             editable: false },
-      { name: 'roughnessMap', value: 'Aluminum_Matte/Aluminum_Matte_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'aluminum corrugated',
-    attributes: [
-      { name: 'colorMap',     value: 'Aluminum_Corrugated/Aluminum_Corrugated_baseColor.png', editable: false },
-      { name: 'normalMap',    value: 'Aluminum_Corrugated/Aluminum_Corrugated_normal.png',    editable: false },
-      { name: 'metalness',    value: 1,                                                       editable: false },
-      { name: 'roughnessMap', value: 'Aluminum_Corrugated/Aluminum_Corrugated_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'copper old',
-    attributes: [
-      { name: 'colorMap',     value: 'Copper_Old/Copper_Old_baseColor.png', editable: false },
-      { name: 'normalMap',    value: 'Copper_Old/Copper_Old_normal.png',    editable: false },
-      { name: 'metalness',    value: 1,                                     editable: false },
-      { name: 'roughnessMap', value: 'Copper_Old/Copper_Old_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'cast iron damaged',
-    attributes: [
-      { name: 'colorMap',     value: 'Cast_Iron_Damaged/Cast_Iron_Damaged_baseColor.png', editable: false },
-      { name: 'normalMap',    value: 'Cast_Iron_Damaged/Cast_Iron_Damaged_bump.png',      editable: false },
-      { name: 'metalnessMap', value: 'Cast_Iron_Damaged/Cast_Iron_Damaged_metallic.png',  editable: false },
-      { name: 'roughnessMap', value: 'Cast_Iron_Damaged/Cast_Iron_Damaged_roughness.png', editable: false },
-    ],
-  },
-  {
-    name: 'bronze oxidized',
-    attributes: [
-      { name: 'colorMap',     value: 'Bronze_Oxydized/Bronze_Oxydized_diffuse.png',   editable: false },
-      { name: 'normalMap',    value: 'Bronze_Oxydized/Bronze_Oxydized_normal.png',    editable: false },
-      { name: 'metalnessMap', value: 'Bronze_Oxydized/Bronze_Oxydized_roughness.png', editable: false },
-      { name: 'roughnessMap', value: 'Bronze_Oxydized/Bronze_Oxydized_roughness.png', editable: false },
-    ],
-  },
-];
 
 const models = [
   { name: 'bunny', path: 'bunny.obj', scale: 50 },
@@ -199,20 +65,20 @@ let currentTextures = null;
 let currentMaterial = null;
 
 let currentTextureMapping = THREE.TriPlanarMapping;
-let currentTextureRepeat = new THREE.Vector2(1, 1);
+let currentTextureRepeat = new THREE.Vector2(0, 0);
 let currentTexture3DMatrix = new THREE.Matrix4();
-let currentTriplanarHardness = 16;
+let currentTriplanarHardness = 4;
 
 function updateTexture(texture, repeat) {
   texture.mapping = currentTextureMapping;
-  texture.repeat.copy(currentTextureRepeat).multiplyScalar(repeat);
+  texture.repeat.copy(new THREE.Vector2(Math.pow(2, currentTextureRepeat.x), Math.pow(2, currentTextureRepeat.y))).multiplyScalar(repeat);
 }
 
 function updateTextures() {
   for (const [_, texture] of currentTextures ?? []) {
     updateTexture(texture.texture, texture.repeat);
   }
-  currentMaterial.triplanarHardness = currentTriplanarHardness;
+  currentMaterial.triplanarHardness = Math.pow(2, currentTriplanarHardness);
 }
 
 async function loadTexture(path, colorSpace, repeat) {
@@ -242,7 +108,7 @@ async function loadTexture(path, colorSpace, repeat) {
 
 async function setMaterialAttribute(material, attribute) {
   switch (attribute.name) {
-    case 'color': { material.color = new THREE.Color(attribute.value); } break;
+    case 'color': { material.color = new THREE.Color(parseInt(attribute.value, 16)); } break;
     case 'colorMap': { material.map = await loadTexture(attribute.value, THREE.SRGBColorSpace, attribute.repeat ?? 1); } break;
     case 'normalMap': { material.normalMap = await loadTexture(attribute.value, THREE.LinearSRGBColorSpace, attribute.repeat ?? 1); } break;
     case 'alphaMap': {
@@ -336,54 +202,112 @@ function selectMapping(mapping) {
   currentMaterial.needsUpdate = true;
 }
 
-window.onload = () => {
-  const materialSelect = document.getElementById('material');
-  for (const material of materials) {
-    materialSelect.add(new Option(material.name));
-  }
-  materialSelect.onchange = () => selectMaterial(materials[materialSelect.selectedIndex]);
-  selectMaterial(materials[materialSelect.selectedIndex]);
+function ModelSelector() {
+  return <>
+    <h2 className="text-l font-bold">Model:</h2>
+     <select className="select" onchange={e => selectModel(models[e.target.selectedIndex])}>
+       {models.map(model => <option>{model.name}</option>)}
+     </select>
+   </>;
+}
 
-  const modelSelect = document.getElementById('model');
-  for (const model of models) {
-    modelSelect.add(new Option(model.name));
-  }
-  modelSelect.onchange = () => selectModel(models[modelSelect.selectedIndex]);
-  selectModel(models[modelSelect.selectedIndex]);
+function ModelTransformControls() {
+  return <>
+    <h2 className="text-l font-bold">Model Transform:</h2>
+    <div className="flex gap-2 justify-stretch">
+      <button className="btn btn-blue flex-1" onclick={e => {
+        mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI/2 ));
+      }}>↻X</button>
+      <button className="btn btn-blue flex-1" onclick={e => {
+        mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/2 ));
+      }}>↻Y</button>
+      <button className="btn btn-blue flex-1" onclick={e => {
+        mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI/2 ));
+      }}>↻Z</button>
+    </div>
+  </>
+}
 
-  const mappingSelect = document.getElementById('mapping');
-  for (const mapping of mappings) {
-    mappingSelect.add(new Option(mapping.name));
-  }
-  mappingSelect.onchange = () => selectMapping(mappings[mappingSelect.selectedIndex].mapping);
-  selectMapping(mappings[mappingSelect.selectedIndex].mapping);
+function MaterialSelector() {
+  return <>
+    <h2 className="text-l font-bold">Material:</h2>
+    <select className="select" onchange={e => selectMaterial(materials[e.target.selectedIndex])}>
+      {materials.map(material => <option>{material.name}</option>)}
+    </select>
+  </>;
+}
 
-  document.getElementById('repeatU').oninput = e => {
-    currentTextureRepeat.x = Math.pow(2, parseFloat(e.target.value));
-    updateTextures();
-  };
-  document.getElementById('repeatV').oninput = e => {
-    currentTextureRepeat.y = Math.pow(2, parseFloat(e.target.value));
-    updateTextures();
-  };
-  document.getElementById('triplanarHardness').oninput = e => {
-    currentTriplanarHardness = Math.pow(2, parseFloat(e.target.value));
-    updateTextures();
-  };
-  document.getElementById('rotateX').onclick = e => { mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), Math.PI/2 )); };
-  document.getElementById('rotateY').onclick = e => { mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI/2 )); };
-  document.getElementById('rotateZ').onclick = e => { mesh.quaternion.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI/2 )); };
+function TextureMappingSelector({onSelect}) {
+  return <>
+    <h2 className="text-l font-bold">Texture Mapping:</h2>
+    <select className="select" onchange={e => onSelect(mappings[e.target.selectedIndex].mapping)}>
+      {mappings.map(mapping => <option>{mapping.name}</option>)}
+    </select>
+  </>;
+}
 
-  document.getElementById('rotateTextureX').onclick = e => {
-    currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationX(Math.PI / 2));
-    currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
-  };
-  document.getElementById('rotateTextureY').onclick = e => {
-    currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationY(Math.PI / 2));
-    currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
-  };
-  document.getElementById('rotateTextureZ').onclick = e => {
-    currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationZ(Math.PI / 2));
-    currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
-  };
+function TextureControls({mapping}) {
+  return <>
+    {mapping === THREE.TriPlanarMapping && (<>
+      <h2 className="text-l font-bold">Triplanar Hardness:</h2>
+      <input className="w-full" type="range" min={0} max={7} value={currentTriplanarHardness} step={0.1} oninput={e => {
+        currentTriplanarHardness = parseFloat(e.target.value);
+        updateTextures();
+      }} />
+    </>)}
+
+    <h2 className="text-l font-bold">Texture Repeat:</h2>
+    <div className="grid grid-cols-8">
+      <div className="col-1">U:</div>
+      <input className="col-start-2 -col-end-1" type="range" min={-5} max={5} value={currentTextureRepeat.x} oninput={e => {
+        currentTextureRepeat.x = parseFloat(e.target.value);
+        updateTextures();
+      }} />
+      <div className="col-1">V:</div>
+      <input className="col-start-2 -col-end-1" type="range" min={-5} max={5} value={currentTextureRepeat.y} oninput={e => {
+        currentTextureRepeat.y = parseFloat(e.target.value);
+        updateTextures();
+      }} />
+    </div>
+
+    <h2 className="text-l font-bold">Texture Map Transform:</h2>
+    <div className="flex gap-2 justify-stretch">
+      <button className="btn btn-blue flex-1" onclick={e => {
+        currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationX(Math.PI / 2));
+        currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
+      }}>↻X</button>
+      <button className="btn btn-blue flex-1" onclick={e => {
+        currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationY(Math.PI / 2));
+        currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
+      }}>↻Y</button>
+      <button className="btn btn-blue flex-1" onclick={e => {
+        currentTexture3DMatrix.premultiply(new THREE.Matrix4().makeRotationZ(Math.PI / 2));
+        currentMaterial.texture3DMatrix = currentTexture3DMatrix.clone();
+      }}>↻Z</button>
+    </div>
+  </>;
+}
+
+const App = () => {
+  useEffect(() => {
+    selectMaterial(materials[0]);
+    selectModel(models[0]);
+  }, []);
+
+  const [mapping, setMapping] = useState(mappings[0].mapping);
+  useEffect(() => selectMapping(mapping), [mapping]);
+
+  return <div className="bg-white rounded-xl p-7 flex flex-col gap-2 fixed top-4 left-4">
+    <div>
+      <ModelSelector /> 
+      <ModelTransformControls />
+    </div>
+    <div>
+      <MaterialSelector />
+      <TextureMappingSelector onSelect={mapping => setMapping(mapping)} />
+      <TextureControls mapping={mapping} />
+    </div>
+  </div>;
 };
+
+render(<App/>, document.body);

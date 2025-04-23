@@ -1,0 +1,138 @@
+[
+  {
+    "name": "perforated metal",
+    "attributes": [
+      { "name": "color",        "value": "333333",                                        "editable": true },
+      { "name": "colorMap",     "value": "Perforated_Metal/Perforated_Metal_diffuse.png",   "editable": false },
+      { "name": "normalMap",    "value": "Perforated_Metal/Perforated_Metal_normal.png",    "editable": false },
+      { "name": "alphaMap",     "value": "Perforated_Metal/Perforated_Metal_opacity.png",   "editable": false },
+      { "name": "roughnessMap", "value": "Perforated_Metal/Perforated_Metal_roughness.png", "editable": false },
+      { "name": "metalnessMap", "value": "Perforated_Metal/Perforated_Metal_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "chainmail",
+    "attributes": [
+      { "name": "color",        "value": "333333",                    "editable": true },
+      { "name": "normalMap",    "value": "Chains/Chains_normal.png",    "editable": false },
+      { "name": "alphaMap",     "value": "Chains/Chains_opacity.png",   "editable": false },
+      { "name": "roughnessMap", "value": "Chains/Chains_roughness.png", "editable": false },
+      { "name": "metalnessMap", "value": "Chains/Chains_metallic.png",  "editable": false }
+    ]
+  },
+  {
+    "name": "sci-fi brick",
+    "attributes": [
+      { "name": "color",        "value": "FFFFFF",                              "editable": true },
+      { "name": "colorMap",     "value": "SciFi_Brick/SciFi_Brick_baseColor.png", "editable": false },
+      { "name": "normalMap",    "value": "SciFi_Brick/SciFi_Brick_normal.png",    "editable": false },
+      { "name": "roughness",    "value": 0.7,                                     "editable": false },
+      { "name": "roughnessMap", "value": "SciFi_Brick/SciFi_Brick_mask.png",      "editable": false },
+      { "name": "metalnessMap", "value": "SciFi_Brick/SciFi_Brick_mask.png",      "editable": false },
+      { "name": "aoMap",        "value": "SciFi_Brick/SciFi_Brick_mask.png",      "editable": false }
+    ]
+  },
+  {
+    "name": "metal plate",
+    "attributes": [
+      { "name": "color",        "value": "FFFFFF",                                    "editable": true },
+      { "name": "colorMap",     "value": "TH_Metal_Plate/TH_Metal_Plate_baseColor.png", "editable": false },
+      { "name": "normalMap",    "value": "TH_Metal_Plate/TH_Metal_Plate_normal.png",    "editable": false },
+      { "name": "roughnessMap", "value": "TH_Metal_Plate/TH_Metal_Plate_roughness.png", "editable": false },
+      { "name": "metalnessMap", "value": "TH_Metal_Plate/TH_Metal_Plate_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "blocky cliff",
+    "attributes": [
+      { "name": "colorMap",     "value": "blocky-cliff-bl/blocky-cliff_albedo.png",      "editable": false },
+      { "name": "normalMap",    "value": "blocky-cliff-bl/blocky-cliff_normal-ogl.png",  "editable": false },
+      { "name": "roughnessMap", "value": "blocky-cliff-bl/blocky-cliff_roughness.png",   "editable": false },
+      { "name": "metalnessMap", "value": "blocky-cliff-bl/blocky-cliff_metallic.png",    "editable": false },
+      { "name": "aoMap",        "value": "blocky-cliff-bl/blocky-cliff_ao.png",          "editable": false }
+    ]
+  },
+  {
+    "name": "gold foil",
+    "attributes": [
+      { "name": "color",     "value": "FFC053",                             "editable": false },
+      { "name": "normalMap", "value": "Gold_Foil_2k_8b/Gold_Foil_normal.png", "editable": false },
+      { "name": "roughness", "value": 0,                                      "editable": false },
+      { "name": "metalness", "value": 1,                                      "editable": false }
+    ]
+  },
+  {
+    "name": "car paint",
+    "attributes": [
+      { "name": "color",         "value": "933100",                              "editable": true },
+      { "name": "normalMap",     "value": "Car_Paint/Car_Paint_normal.png",        "editable": false, "repeat": 5 },
+      { "name": "metalness",     "value": 1,                                       "editable": false },
+      { "name": "roughnessMap",  "value": "Car_Paint/Car_Paint_roughness.png",     "editable": false },
+      { "name": "clearcoat",     "value": 1,                                       "editable": false }
+    ]
+  },
+  {
+    "name": "stainless steel brushed",
+    "attributes": [
+      { "name": "colorMap",     "value": "Stainless_Steel_Brushed/Stainless_Steel_Brushed_diffuse.png",   "editable": false },
+      { "name": "normalMap",    "value": "Stainless_Steel_Brushed/Stainless_Steel_Brushed_bump.png",      "editable": false },
+      { "name": "metalness",    "value": 1,                                                               "editable": false },
+      { "name": "roughnessMap", "value": "Stainless_Steel_Brushed/Stainless_Steel_Brushed_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "aluminum brushed",
+    "attributes": [
+      { "name": "color",        "value": "888888",                                        "editable": false },
+      { "name": "normalMap",    "value": "Aluminum_Brushed/Aluminum_Brushed_normal.png",    "editable": false },
+      { "name": "metalness",    "value": 1,                                                 "editable": false },
+      { "name": "roughness",    "value": 0.5,                                               "editable": false },
+      { "name": "roughnessMap", "value": "Aluminum_Brushed/Aluminum_Brushed_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "aluminum matte",
+    "attributes": [
+      { "name": "color",        "value": "888888",                                    "editable": false },
+      { "name": "normalMap",    "value": "Aluminum_Matte/Aluminum_Matte_normal.png",    "editable": false },
+      { "name": "metalness",    "value": 1,                                             "editable": false },
+      { "name": "roughnessMap", "value": "Aluminum_Matte/Aluminum_Matte_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "aluminum corrugated",
+    "attributes": [
+      { "name": "colorMap",     "value": "Aluminum_Corrugated/Aluminum_Corrugated_baseColor.png", "editable": false },
+      { "name": "normalMap",    "value": "Aluminum_Corrugated/Aluminum_Corrugated_normal.png",    "editable": false },
+      { "name": "metalness",    "value": 1,                                                       "editable": false },
+      { "name": "roughnessMap", "value": "Aluminum_Corrugated/Aluminum_Corrugated_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "copper old",
+    "attributes": [
+      { "name": "colorMap",     "value": "Copper_Old/Copper_Old_baseColor.png", "editable": false },
+      { "name": "normalMap",    "value": "Copper_Old/Copper_Old_normal.png",    "editable": false },
+      { "name": "metalness",    "value": 1,                                     "editable": false },
+      { "name": "roughnessMap", "value": "Copper_Old/Copper_Old_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "cast iron damaged",
+    "attributes": [
+      { "name": "colorMap",     "value": "Cast_Iron_Damaged/Cast_Iron_Damaged_baseColor.png", "editable": false },
+      { "name": "normalMap",    "value": "Cast_Iron_Damaged/Cast_Iron_Damaged_bump.png",      "editable": false },
+      { "name": "metalnessMap", "value": "Cast_Iron_Damaged/Cast_Iron_Damaged_metallic.png",  "editable": false },
+      { "name": "roughnessMap", "value": "Cast_Iron_Damaged/Cast_Iron_Damaged_roughness.png", "editable": false }
+    ]
+  },
+  {
+    "name": "bronze oxidized",
+    "attributes": [
+      { "name": "colorMap",     "value": "Bronze_Oxydized/Bronze_Oxydized_diffuse.png",   "editable": false },
+      { "name": "normalMap",    "value": "Bronze_Oxydized/Bronze_Oxydized_normal.png",    "editable": false },
+      { "name": "metalnessMap", "value": "Bronze_Oxydized/Bronze_Oxydized_roughness.png", "editable": false },
+      { "name": "roughnessMap", "value": "Bronze_Oxydized/Bronze_Oxydized_roughness.png", "editable": false }
+    ]
+  }
+]
